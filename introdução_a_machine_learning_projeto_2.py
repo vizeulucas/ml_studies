@@ -25,6 +25,8 @@ x = dados[['principal', 'como_funciona', 'contato']]
 y = dados['comprou']
 x.head()
 
+
+
 treino_x = x[:75]
 treino_y = y[:75]
 teste_x = x[75:]
@@ -32,8 +34,47 @@ teste_y = y[75:]
 
 print(f'Treinaremos com {len(treino_x)} elementos e testaremos com {len(teste_x)} elementos')
 
+"""# Separação entre os exemplos"""
+
 from sklearn.svm import LinearSVC
 from sklearn.metrics import accuracy_score
+
+modelo = LinearSVC()
+modelo.fit(treino_x, treino_y)
+previsoes = modelo.predict(teste_x)
+
+acuracia = accuracy_score(teste_y, previsoes)
+
+print(f'A acuracia foi {acuracia*100:.2f}')
+
+from sklearn.model_selection import train_test_split
+from sklearn.svm import LinearSVC
+from sklearn.metrics import accuracy_score
+
+SEED = 20
+
+treino_x, teste_x, treino_y, teste_y = train_test_split(x, y, random_state=SEED, test_size=0.25)
+print(f'Treinaremos com {len(treino_x)} elementos e testaremos com {len(teste_x)} elementos')
+
+modelo = LinearSVC()
+modelo.fit(treino_x, treino_y)
+previsoes = modelo.predict(teste_x)
+
+acuracia = accuracy_score(teste_y, previsoes)
+
+print(f'A acuracia foi {acuracia*100:.2f}')
+
+"""# Separação entre exemplos"""
+
+from sklearn.model_selection import train_test_split
+from sklearn.svm import LinearSVC
+from sklearn.metrics import accuracy_score
+
+SEED = 20
+
+treino_x, teste_x, treino_y, teste_y = train_test_split(x, y, random_state=SEED, 
+                                                        test_size=0.25, stratify=y)
+print(f'Treinaremos com {len(treino_x)} elementos e testaremos com {len(teste_x)} elementos')
 
 modelo = LinearSVC()
 modelo.fit(treino_x, treino_y)
